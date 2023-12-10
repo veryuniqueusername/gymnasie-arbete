@@ -1,5 +1,8 @@
 use nalgebra::Vector3;
 
+const DELTA_TIME: f64 = 0.1;
+const SIMULATION_TIME: f64 = 60.0;
+
 fn main() {
     let mut positions: Vec<(Vector3<f64>, Vector3<f64>, Vector3<f64>)> = Vec::new();
 
@@ -14,9 +17,9 @@ fn main() {
     let mut r_c: Vector3<f64> = Vector3::new(-0.5, -0.8660254038, 0.0);
 
     // Momenta
-    let mut p_a: Vector3<f64> = Vector3::new(1.0, 0.0, 0.0);
-    let mut p_b: Vector3<f64> = Vector3::new(-0.5, 0.8660254038, 0.0);
-    let mut p_c: Vector3<f64> = Vector3::new(-0.5, -0.8660254038, 0.0);
+    let mut p_a: Vector3<f64> = Vector3::new(0.0, 0.5, 0.0);
+    let mut p_b: Vector3<f64> = Vector3::new(-0.4330127019, -0.25, 0.0);
+    let mut p_c: Vector3<f64> = Vector3::new(0.4330127019, -0.25, 0.0);
 
     // Force vectors, f_ab means the force A has on B; A pulls B with the force f_ab
     // f_ba = -f_ab
@@ -25,9 +28,8 @@ fn main() {
     let mut f_bc: Vector3<f64>;
 
     let mut time = 0.0;
-    const DELTA_TIME: f64 = 0.1;
 
-    while time < 10.0 {
+    while time < SIMULATION_TIME {
         // Calculate the new forces and assign them to their variables
         f_ab = calculate_gravitational_force(M_A, r_a, M_B, r_b);
         f_ac = calculate_gravitational_force(M_A, r_a, M_C, r_c);
