@@ -9,14 +9,14 @@ fn main() {
     const M_C: f64 = 1.0;
 
     // Positions
-    let mut r_a = Vector3::new(1.0, 0.0, 0.0);
-    let mut r_b = Vector3::new(-0.5, 0.8660254038, 0.0);
-    let mut r_c = Vector3::new(-0.5, -0.8660254038, 0.0);
+    let mut r_a: Vector3<f64> = Vector3::new(1.0, 0.0, 0.0);
+    let mut r_b: Vector3<f64> = Vector3::new(-0.5, 0.8660254038, 0.0);
+    let mut r_c: Vector3<f64> = Vector3::new(-0.5, -0.8660254038, 0.0);
 
     // Momenta
-    let mut p_a = Vector3::new(1.0, 0.0, 0.0);
-    let mut p_b = Vector3::new(-0.5, 0.8660254038, 0.0);
-    let mut p_c = Vector3::new(-0.5, -0.8660254038, 0.0);
+    let mut p_a: Vector3<f64> = Vector3::new(1.0, 0.0, 0.0);
+    let mut p_b: Vector3<f64> = Vector3::new(-0.5, 0.8660254038, 0.0);
+    let mut p_c: Vector3<f64> = Vector3::new(-0.5, -0.8660254038, 0.0);
 
     // Force vectors, f_ab means the force A has on B; A pulls B with the force f_ab
     // f_ba = -f_ab
