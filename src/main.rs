@@ -1,9 +1,14 @@
+use bevy::prelude::*;
 use nalgebra::Vector3;
 
 const DELTA_TIME: f64 = 0.1;
 const SIMULATION_TIME: f64 = 60.0;
 
 fn main() {
+    App::new().run();
+}
+
+fn _main() {
     let mut positions: Vec<(Vector3<f64>, Vector3<f64>, Vector3<f64>)> = Vec::new();
 
     // Mass
