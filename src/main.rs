@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use nalgebra::Vector3;
 
-const DELTA_TIME: f64 = 0.1;
+const DELTA_TIME: f64 = 0.001;
 const SIMULATION_TIME: f64 = 60.0;
 
 fn main() {
