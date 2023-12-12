@@ -1,11 +1,11 @@
-use bevy::prelude::*;
 use nalgebra::Vector3;
+use three_body::run;
 
 const DELTA_TIME: f64 = 0.001;
 const SIMULATION_TIME: f64 = 60.0;
 
 fn main() {
-    App::new().run();
+    run();
 }
 
 fn _main() {

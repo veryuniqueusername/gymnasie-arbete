@@ -10,3 +10,8 @@ log = "0.4.20"
 nalgebra = "0.32.3"
 wgpu = "0.18.0"
 winit = "0.29.4"
+cfg-if = "1"
+
+
+[lib]
+crate-type = ["cdylib", "rlib"]
