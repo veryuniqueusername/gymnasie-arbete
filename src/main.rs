@@ -5,8 +5,8 @@ const DELTA_TIME: f64 = 0.000002; // How much time passes between each calculati
 const SIMULATION_TIME: f64 = 60.0; // How many (simulation) seconds to run each simulation for
 const FRAME_TIME: f64 = 1.0 / 60.0; // Seconds per frame
 const SCALE: f32 = 200.0; // How many times the zoom is
-const PATH_LENGTH: usize = 32; // How many segments the path is made of
-const PATH_SKIP: usize = 3; // How many frames pass until a segment is added to the path
+const PATH_LENGTH: usize = 128; // How many segments the path is made of
+const PATH_SKIP: usize = 2; // How many frames pass until a segment is added to the path
 const COLORS: [macroquad::color::Color; 3] = [
     Color::new(1.0, 0.5, 0.5, 1.0),
     Color::new(0.5, 1.0, 0.5, 1.0),
@@ -112,6 +112,12 @@ async fn main() {
             }
         }
 
+        if frames_since_last_segment == PATH_SKIP {
+            frames_since_last_segment = 0;
+        } else {
+            frames_since_last_segment += 1;
+        }
+
         for i in 0..bodies.len() {
             // Draw dot
             let center_width = screen_width() / 2.0;
@@ -122,12 +128,9 @@ async fn main() {
             draw_circle(pos_x, pos_y, 5.0, COLORS[i]);
 
             // Add segment to path
-            if frames_since_last_segment == PATH_SKIP {
+            if frames_since_last_segment == 0 {
                 path[i].rotate_right(1);
                 path[i][0] = Vector3::new(pos_x, pos_y, 0.0);
-                frames_since_last_segment = 0;
-            } else {
-                frames_since_last_segment += 1;
             }
             // Draw path
             for j in 1..path[i].len() {
