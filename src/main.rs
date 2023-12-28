@@ -1,16 +1,22 @@
+mod positions;
+
 use macroquad::prelude::*;
 use nalgebra::Vector3;
+use positions::*;
 
-const DELTA_TIME: f64 = 0.000002; // How much time passes between each calculation
+const DELTA_TIME: f64 = 0.000004; // How much time passes between each calculation
 const SIMULATION_TIME: f64 = 60.0; // How many (simulation) seconds to run each simulation for
 const FRAME_TIME: f64 = 1.0 / 60.0; // Seconds per frame
-const SCALE: f32 = 200.0; // How many times the zoom is
+const SCALE: f32 = 50.0; // How many times the zoom is
 const PATH_LENGTH: usize = 128; // How many segments the path is made of
 const PATH_SKIP: usize = 2; // How many frames pass until a segment is added to the path
-const COLORS: [macroquad::color::Color; 3] = [
+const COLORS: [macroquad::color::Color; 6] = [
     Color::new(1.0, 0.5, 0.5, 1.0),
     Color::new(0.5, 1.0, 0.5, 1.0),
     Color::new(0.5, 0.5, 1.0, 1.0),
+    Color::new(1.0, 1.0, 0.5, 1.0),
+    Color::new(1.0, 0.5, 1.0, 1.0),
+    Color::new(0.5, 1.0, 1.0, 1.0),
 ];
 const VELOCITY_COLOR: Color = Color::new(1.0, 0.0, 0.0, 0.5);
 const ACCELERATION_COLOR: Color = Color::new(1.0, 1.0, 0.0, 0.5);
@@ -35,36 +41,33 @@ fn window_conf() -> Conf {
 async fn main() {
     let mut elapsed_time = 0.0;
 
-    let mut bodies = [
-        Body {
-            r: Vector3::new(0.0, 0.0, 0.0),
-            v: Vector3::new(-0.93240737, -0.86473146, 0.0),
-            a: Vector3::zeros(),
-        },
-        Body {
-            r: Vector3::new(-0.97000436, 0.24308753, 0.0),
-            v: Vector3::new(0.4662036850, 0.4323657300, 0.0),
-            a: Vector3::zeros(),
-        },
-        Body {
-            r: Vector3::new(0.97000436, -0.24308753, 0.0),
-            v: Vector3::new(0.4662036850, 0.4323657300, 0.0),
-            a: Vector3::zeros(),
-        },
-    ];
+    let mut bodies = RANDOM;
 
     let mut path: Vec<[Vector3<f32>; PATH_LENGTH]> =
         vec![[Vector3::zeros(); PATH_LENGTH]; bodies.len()];
+    for i in 0..path.len() {
+        for j in 0..PATH_LENGTH {
+            path[i][j] = Vector3::new(
+                screen_width() / 2.0 + bodies[i].r.x as f32 * SCALE,
+                screen_height() / 2.0 - bodies[i].r.y as f32 * SCALE,
+                bodies[i].r.z as f32,
+            );
+        }
+    }
+    println!("{:#?}", path);
     let mut frames_since_last_segment: usize = 0;
 
     loop {
+        let center_width = screen_width() / 2.0;
+        let center_height = screen_height() / 2.0;
+
         clear_background(Color::from_hex(0x1a1223)); // Background
-        draw_circle(screen_width() / 2.0, screen_height() / 2.0, 2.0, WHITE); // Center
+        draw_circle(center_width, center_height, 2.0, WHITE); // Center
         for i in (-(screen_width() / SCALE) as i32 / 2)..=((screen_width() / SCALE) as i32 / 2) {
             draw_line(
-                screen_width() / 2.0 + SCALE * i as f32,
+                center_width + SCALE * i as f32,
                 0.0,
-                screen_width() / 2.0 + SCALE * i as f32,
+                center_width + SCALE * i as f32,
                 screen_height(),
                 0.5,
                 GRAY,
@@ -73,9 +76,9 @@ async fn main() {
         for i in (-(screen_height() / SCALE) as i32 / 2)..=((screen_height() / SCALE) as i32 / 2) {
             draw_line(
                 0.0,
-                screen_height() / 2.0 + SCALE * i as f32,
+                center_height + SCALE * i as f32,
                 screen_width(),
-                screen_height() / 2.0 + SCALE * i as f32,
+                center_height + SCALE * i as f32,
                 0.5,
                 GRAY,
             )
@@ -120,8 +123,6 @@ async fn main() {
 
         for i in 0..bodies.len() {
             // Draw dot
-            let center_width = screen_width() / 2.0;
-            let center_height = screen_height() / 2.0;
 
             let pos_x: f32 = center_width + (bodies[i].r.x as f32 * SCALE);
             let pos_y: f32 = center_height - (bodies[i].r.y as f32 * SCALE);
