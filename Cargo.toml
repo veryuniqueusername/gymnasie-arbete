@@ -1,10 +1,8 @@
 [package]
 name = "three_body"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 [dependencies]
-env_logger = "0.10.1"
-log = "0.4.20"
 macroquad = "0.4.4"
 nalgebra = "0.32.3"

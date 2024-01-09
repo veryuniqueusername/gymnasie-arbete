@@ -20,6 +20,19 @@ pub const FIGURE_EIGHT: [Body; 3] = [
     },
 ];
 
+pub const TWO_BODY: [Body; 2] = [
+    Body {
+        r: Vector3::new(-1.0, 0.0, 0.0),
+        v: Vector3::new(0.3, -0.3, 0.0),
+        a: Vector3::new(0.0, 0.0, 0.0),
+    },
+    Body {
+        r: Vector3::new(1.0, 0.0, 0.0),
+        v: Vector3::new(0.7, 0.3, 0.0),
+        a: Vector3::new(0.0, 0.0, 0.0),
+    },
+];
+
 pub const FOUR_BODY_SQUARE: [Body; 4] = [
     Body {
         r: Vector3::new(1.0, 1.0, 0.0),
@@ -45,18 +58,18 @@ pub const FOUR_BODY_SQUARE: [Body; 4] = [
 
 pub const RANDOM: [Body; 3] = [
     Body {
+        r: Vector3::new(-2.0, 0.0, 0.0),
+        v: Vector3::new(0.0, -0.5, 0.0),
+        a: Vector3::new(0.0, 0.0, 0.0),
+    },
+    Body {
+        r: Vector3::new(1.0, 0.0, 0.0),
+        v: Vector3::new(0.0, 1.0, 0.0),
+        a: Vector3::new(0.0, 0.0, 0.0),
+    },
+    Body {
         r: Vector3::new(0.0, 0.0, 0.0),
-        v: Vector3::new(1.6, 0.0, 0.0),
-        a: Vector3::new(0.0, 0.0, 0.0),
-    },
-    Body {
-        r: Vector3::new(0.0, -1.0, 0.0),
-        v: Vector3::new(1.0, -0.3, 0.0),
-        a: Vector3::new(0.0, 0.0, 0.0),
-    },
-    Body {
-        r: Vector3::new(0.0, 2.0, 0.0),
-        v: Vector3::new(2.3, 0.1, 0.0),
+        v: Vector3::new(0.0, 0.0, 0.0),
         a: Vector3::new(0.0, 0.0, 0.0),
     },
 ];
