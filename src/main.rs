@@ -6,7 +6,7 @@ use macroquad::prelude::*;
 use nalgebra::Vector3;
 use positions::*;
 
-const DELTA_TIME: f64 = 0.000005; // How much time passes between each calculation
+const DELTA_TIME: f64 = 0.000001; // How much time passes between each calculation
 const SIMULATION_TIME: f64 = 60.0; // How many (simulation) seconds to run each simulation for
 const TARGET_FRAME_TIME: f64 = 1.0 / 30.0;
 const PATH_LENGTH: usize = 512; // How many segments the path is made of
