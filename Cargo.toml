@@ -6,3 +6,6 @@ edition = "2021"
 [dependencies]
 macroquad = "0.4.4"
 nalgebra ={version= "0.32.3", features = ["convert-glam021"]}
+
+[profile.dev]
+opt-level = 3
