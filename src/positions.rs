@@ -2,6 +2,8 @@ use nalgebra::Vector3;
 
 use crate::Body;
 
+#[allow(unused_variables)]
+
 pub const FIGURE_EIGHT: [Body; 3] = [
     Body {
         r: Vector3::new(0.0, 0.0, 0.0),
@@ -58,7 +60,7 @@ pub const FOUR_BODY_SQUARE: [Body; 4] = [
 
 pub const RANDOM: [Body; 3] = [
     Body {
-        r: Vector3::new(-2.0, 0.0, 0.0),
+        r: Vector3::new(-2.0, 0.0, 0.5),
         v: Vector3::new(0.0, -0.5, 0.0),
         a: Vector3::new(0.0, 0.0, 0.0),
     },
@@ -69,7 +71,7 @@ pub const RANDOM: [Body; 3] = [
     },
     Body {
         r: Vector3::new(0.0, 0.0, 0.0),
-        v: Vector3::new(0.0, 0.0, 0.0),
+        v: Vector3::new(0.0, 0.0, 0.2),
         a: Vector3::new(0.0, 0.0, 0.0),
     },
 ];
