@@ -10,7 +10,7 @@ const DELTA_TIME: f64 = 0.0000005; // How much time passes between each calculat
 const SIMULATION_TIME: f64 = 60.0; // How many (simulation) seconds to run each simulation for
 const TARGET_FRAME_TIME: f64 = 1.0 / 30.0;
 const PATH_LENGTH: usize = 512; // How many segments the path is made of
-const PATH_SKIP: usize = 1; // How many frames pass until a segment is added to the path
+const PATH_SKIP: usize = 0; // How many frames skipped between a segment is added to the path
 const COLORS: [macroquad::color::Color; 6] = [
     Color::new(1.0, 0.5, 0.5, 1.0),
     Color::new(0.5, 1.0, 0.5, 1.0),
@@ -28,7 +28,7 @@ const DRAW_ACCELERATION: bool = true;
 const FIXED_ZOOM: bool = true; // Whether the zoom amount should be fixed or if all objects should be visible at all times
 const ZOOM: f32 = 5.0; // How far away the camera is, higher value = more zoomed out
 const FOLLOW_COM: bool = true; // If the camera should follow center of mass or origin
-const DRAW_ORBITS: bool = true; // If the path should be stored relative to the center of mass or absolute positions in world, does nothing if FOCUS_COM is false
+const DRAW_ORBITS: bool = false; // If the path should be stored relative to the center of mass or absolute positions in world, does nothing if FOCUS_COM is false
 
 #[derive(Debug)]
 pub struct Body {
@@ -50,7 +50,7 @@ fn window_conf() -> Conf {
 async fn main() {
     let mut elapsed_time: f64 = 0.0;
 
-    let mut bodies = FIGURE_EIGHT;
+    let mut bodies = RANDOM;
 
     let mut center_of_mass: Vec3 = Vec3::new(0., 0., 0.);
     if FOLLOW_COM {
@@ -65,11 +65,14 @@ async fn main() {
     // Initiate path
     let mut path: Vec<[Vec3; PATH_LENGTH]> = vec![[Vec3::ZERO; PATH_LENGTH]; bodies.len()];
     for i in 0..path.len() {
-        let p: Vec3 = Vec3::new(
-            bodies[i].r.x as f32,
-            bodies[i].r.y as f32,
-            bodies[i].r.z as f32,
-        );
+        let p: Vector3<f32> = nalgebra::convert(bodies[i].r);
+        let p: Vec3 = p.into();
+        let p: Vec3 = p - if DRAW_ORBITS {
+            center_of_mass
+        } else {
+            Vec3::ZERO
+        };
+
         for j in 0..PATH_LENGTH {
             path[i][j] = p;
         }
@@ -173,13 +176,31 @@ async fn main() {
             // Add segment to path
             if frames_since_last_segment == 0 {
                 path[i].rotate_right(1);
-                path[i][0] = r;
+                path[i][0] = r - if DRAW_ORBITS {
+                    center_of_mass
+                } else {
+                    Vec3::ZERO
+                };
             }
             // Draw path
             for j in 1..path[i].len() {
                 let c = COLORS[i];
                 let c = Color::new(c.r, c.g, c.b, c.a - (j as f32 / PATH_LENGTH as f32));
-                draw_line_3d(path[i][j], path[i][j - 1], c);
+                draw_line_3d(
+                    path[i][j]
+                        + if DRAW_ORBITS {
+                            center_of_mass
+                        } else {
+                            Vec3::ZERO
+                        },
+                    path[i][j - 1]
+                        + if DRAW_ORBITS {
+                            center_of_mass
+                        } else {
+                            Vec3::ZERO
+                        },
+                    c,
+                );
             }
 
             // Draw velocity and acceleration vectors
