@@ -6,7 +6,7 @@ use macroquad::prelude::*;
 use nalgebra::Vector3;
 use positions::*;
 
-const DELTA_TIME: f64 = 0.000001; // How much time passes between each calculation
+const DELTA_TIME: f64 = 0.0000005; // How much time passes between each calculation
 const SIMULATION_TIME: f64 = 60.0; // How many (simulation) seconds to run each simulation for
 const TARGET_FRAME_TIME: f64 = 1.0 / 30.0;
 const PATH_LENGTH: usize = 512; // How many segments the path is made of
@@ -50,7 +50,7 @@ fn window_conf() -> Conf {
 async fn main() {
     let mut elapsed_time: f64 = 0.0;
 
-    let mut bodies = RANDOM;
+    let mut bodies = FIGURE_EIGHT;
 
     let mut center_of_mass: Vec3 = Vec3::new(0., 0., 0.);
     if FOLLOW_COM {
