@@ -31,7 +31,7 @@ const FOLLOW_COM: bool = true; // If the camera should follow center of mass or 
 const DRAW_ORBITS: bool = true; // If the path should be stored relative to the center of mass or absolute positions in world, does nothing if FOCUS_COM is false
 
 #[derive(Debug)]
-struct Body {
+pub struct Body {
     r: Vector3<f64>,
     v: Vector3<f64>,
     a: Vector3<f64>,
