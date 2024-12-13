@@ -13,10 +13,10 @@ mass: float = 0.05
 
 z: float = -l/2
 v: float = 0
-dt: float = 0.001
+dt: float = 0.000001
 t = 0
 
-while t < 100:
+while t < 0.001:
     U: float = U_0 * math.exp(-t / (R*C))
     I: float = U / R
     zpos: float = math.pow(z+l/2, 2)
